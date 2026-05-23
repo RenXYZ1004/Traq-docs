@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TRaQ Documentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --primary: #1a56a0;
+  --primary-lt: #e8f0fb;
+  --primary-dk: #133d7a;
+  --accent: #00c896;
+  --accent-lt: #e0faf3;
+  --white: #ffffff;
+  --bg: #f8fafc;
+  --bg2: #f1f5f9;
+  --text: #0f172a;
+  --text2: #475569;
+  --text3: #94a3b8;
+  --border: #e2e8f0;
+  --border2: #cbd5e1;
+  --code-bg: #0f172a;
+  --code-text: #e2e8f0;
+  --red: #dc2626;
+  --red-lt: #fef2f2;
+  --green: #16a34a;
+  --green-lt: #f0fdf4;
+  --yellow: #d97706;
+  --yellow-lt: #fffbeb;
+  --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --radius: 8px;
+  --font: 'Inter', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --sidebar-w: 260px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 15px; line-height: 1.7; }
+
+/* ── TOPBAR ── */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  background: var(--primary); color: white;
+  height: 56px; display: flex; align-items: center;
+  padding: 0 28px; gap: 16px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.1);
+}
+.topbar-logo { font-size: 18px; font-weight: 700; letter-spacing: -.3px; }
+.topbar-version {
+  font-size: 11px; padding: 2px 8px; border-radius: 20px;
+  background: rgba(255,255,255,.15); font-family: var(--mono);
+}
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+.topbar-link {
+  color: rgba(255,255,255,.8); text-decoration: none; font-size: 13px; font-weight: 500;
+  transition: color .15s;
+}
+.topbar-link:hover { color: white; }
+.topbar-badge {
+  background: var(--accent); color: #0f172a; font-size: 11px; font-weight: 700;
+  padding: 4px 12px; border-radius: 20px; text-decoration: none;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position: fixed; top: 56px; left: 0; bottom: 0; width: var(--sidebar-w);
+  background: var(--white); border-right: 1px solid var(--border);
+  overflow-y: auto; padding: 20px 0;
+  z-index: 100;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+.nav-group { margin-bottom: 4px; }
+.nav-group-label {
+  padding: 6px 20px 4px; font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.2px; color: var(--text3);
+}
+.nav-link {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 20px; font-size: 13px; font-weight: 500;
+  color: var(--text2); text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all .12s;
+}
+.nav-link:hover { background: var(--bg2); color: var(--primary); }
+.nav-link.active { background: var(--primary-lt); color: var(--primary); border-left-color: var(--primary); }
+.nav-link svg { width: 14px; height: 14px; flex-shrink: 0; opacity: .7; }
+.nav-divider { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
+
+/* ── MAIN ── */
+.main {
+  margin-left: var(--sidebar-w);
+  margin-top: 56px;
+  padding: 0;
+  min-height: calc(100vh - 56px);
+}
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dk) 100%);
+  color: white; padding: 72px 64px; position: relative; overflow: hidden;
+}
+.hero::after {
+  content: ''; position: absolute; right: -60px; top: -60px;
+  width: 300px; height: 300px; border-radius: 50%;
+  background: rgba(255,255,255,.04);
+}
+.hero-eyebrow {
+  font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 16px;
+}
+.hero-title {
+  font-size: 40px; font-weight: 700; letter-spacing: -1px;
+  line-height: 1.15; margin-bottom: 16px;
+}
+.hero-title span { color: var(--accent); }
+.hero-sub { font-size: 17px; opacity: .8; max-width: 600px; margin-bottom: 32px; }
+.hero-meta { display: flex; gap: 24px; flex-wrap: wrap; }
+.hero-meta-item { font-size: 13px; opacity: .7; display: flex; align-items: center; gap: 6px; }
+.hero-meta-item::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+/* ── CONTENT ── */
+.content { padding: 48px 64px; max-width: 860px; }
+
+/* ── SECTION ── */
+.section { margin-bottom: 56px; scroll-margin-top: 80px; }
+
+h2.section-title {
+  font-size: 24px; font-weight: 700; color: var(--text);
+  margin-bottom: 8px; letter-spacing: -.3px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--primary);
+  display: inline-flex; align-items: center; gap: 10px;
+}
+h2.section-title svg { width: 22px; height: 22px; color: var(--primary); flex-shrink: 0; }
+
+h3.sub-title {
+  font-size: 16px; font-weight: 600; color: var(--text);
+  margin: 28px 0 12px; display: flex; align-items: center; gap: 8px;
+}
+h3.sub-title::before {
+  content: ''; width: 3px; height: 18px; background: var(--primary);
+  border-radius: 2px; flex-shrink: 0;
+}
+
+p { color: var(--text2); margin-bottom: 14px; }
+p:last-child { margin-bottom: 0; }
+
+/* ── CALLOUTS ── */
+.callout {
+  border-radius: var(--radius); padding: 14px 18px;
+  margin: 20px 0; display: flex; gap: 12px; align-items: flex-start;
+  font-size: 14px;
+}
+.callout svg { width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px; }
+.callout.info    { background: var(--primary-lt); border: 1px solid #bfd4f5; color: var(--primary-dk); }
+.callout.warning { background: var(--yellow-lt); border: 1px solid #fde68a; color: #92400e; }
+.callout.danger  { background: var(--red-lt); border: 1px solid #fecaca; color: #991b1b; }
+.callout.success { background: var(--green-lt); border: 1px solid #bbf7d0; color: #14532d; }
+
+/* ── TABLES ── */
+.table-wrap { overflow-x: auto; margin: 20px 0; border-radius: var(--radius); border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+thead th {
+  padding: 10px 16px; text-align: left; font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .8px; color: var(--text3);
+  background: var(--bg2); border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+tbody td { padding: 10px 16px; border-bottom: 1px solid var(--border); color: var(--text2); vertical-align: top; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: var(--bg2); }
+td code, th code { font-family: var(--mono); font-size: 12px; background: var(--bg2); padding: 1px 5px; border-radius: 4px; color: var(--primary); }
+
+/* ── CODE BLOCKS ── */
+.code-block {
+  background: var(--code-bg); border-radius: var(--radius);
+  margin: 16px 0; overflow: hidden;
+}
+.code-header {
+  background: rgba(255,255,255,.05); padding: 8px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.code-lang { font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: 1px; }
+.code-copy {
+  font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,.4);
+  background: none; border: none; cursor: pointer; padding: 2px 8px;
+  border-radius: 4px; transition: all .15s;
+}
+.code-copy:hover { background: rgba(255,255,255,.08); color: white; }
+pre { padding: 18px 20px; overflow-x: auto; }
+pre code {
+  font-family: var(--mono); font-size: 13px; color: var(--code-text);
+  line-height: 1.7; white-space: pre;
+}
+.hl-kw { color: #c792ea; } /* keyword */
+.hl-st { color: #c3e88d; } /* string */
+.hl-cm { color: #546e7a; font-style: italic; } /* comment */
+.hl-nm { color: #82aaff; } /* name/variable */
+.hl-fn { color: #82b1ff; } /* function */
+.hl-nb { color: #ffcb6b; } /* number */
+
+/* ── INLINE CODE ── */
+code { font-family: var(--mono); font-size: 12.5px; background: var(--primary-lt); color: var(--primary); padding: 2px 6px; border-radius: 4px; }
+
+/* ── BADGES ── */
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;
+}
+.badge-green  { background: var(--green-lt); color: var(--green); }
+.badge-red    { background: var(--red-lt); color: var(--red); }
+.badge-yellow { background: var(--yellow-lt); color: var(--yellow); }
+.badge-blue   { background: var(--primary-lt); color: var(--primary); }
+.badge-gray   { background: var(--bg2); color: var(--text2); }
+
+/* ── FEATURE GRID ── */
+.feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin: 24px 0; }
+.feature-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px 20px;
+  box-shadow: var(--shadow);
+}
+.feature-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; margin-bottom: 12px;
+}
+.feature-icon.blue   { background: var(--primary-lt); }
+.feature-icon.green  { background: var(--green-lt); }
+.feature-icon.yellow { background: var(--yellow-lt); }
+.feature-icon.red    { background: var(--red-lt); }
+.feature-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.feature-card p  { font-size: 13px; color: var(--text2); margin: 0; }
+
+/* ── STEPS ── */
+.steps { margin: 20px 0; }
+.step { display: flex; gap: 16px; margin-bottom: 20px; }
+.step-num {
+  width: 28px; height: 28px; border-radius: 50%; background: var(--primary);
+  color: white; font-size: 13px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;
+}
+.step-body { flex: 1; }
+.step-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+.step-desc  { font-size: 14px; color: var(--text2); }
+
+/* ── ARCH DIAGRAM ── */
+.arch {
+  background: var(--code-bg); border-radius: var(--radius);
+  padding: 24px; margin: 20px 0; font-family: var(--mono); font-size: 12px;
+  color: #94a3b8; line-height: 1.8; overflow-x: auto;
+}
+.arch .hl { color: var(--accent); font-weight: 500; }
+.arch .hl2 { color: #82aaff; }
+.arch .arrow { color: #c792ea; }
+
+/* ── WIRING ── */
+.wiring-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+.wiring-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+}
+.wiring-head {
+  background: var(--primary); color: white;
+  padding: 8px 16px; font-size: 13px; font-weight: 600;
+  display: flex; align-items: center; gap: 8px;
+}
+.wiring-head svg { width: 14px; height: 14px; opacity: .8; }
+.wiring-card table { margin: 0; }
+.wiring-card .table-wrap { border: none; border-radius: 0; }
+
+/* ── SCHEDULE ── */
+.schedule { margin: 20px 0; }
+.sched-item {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding: 14px 0; border-bottom: 1px solid var(--border);
+}
+.sched-item:last-child { border-bottom: none; }
+.sched-time {
+  font-family: var(--mono); font-size: 12px; font-weight: 600;
+  color: var(--primary); background: var(--primary-lt);
+  padding: 3px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0;
+}
+.sched-auto {
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  padding: 3px 8px; border-radius: 4px; flex-shrink: 0;
+}
+.sched-scan  { background: var(--green-lt); color: var(--green); }
+.sched-trigger { background: var(--yellow-lt); color: var(--yellow); }
+.sched-desc { font-size: 14px; color: var(--text2); }
+.sched-desc strong { color: var(--text); font-weight: 600; }
+
+/* ── DB TREE ── */
+.db-tree {
+  background: var(--code-bg); border-radius: var(--radius);
+  padding: 20px; margin: 16px 0; font-family: var(--mono);
+  font-size: 12.5px; line-height: 2; overflow-x: auto;
+}
+.db-key   { color: #82aaff; }
+.db-val   { color: #c3e88d; }
+.db-type  { color: #c792ea; }
+.db-comment { color: #546e7a; font-style: italic; }
+
+/* ── SECURITY TABLE ── */
+.security-row td:nth-child(2) { font-weight: 500; }
+
+/* ── TROUBLESHOOT ── */
+.trouble-group { margin-bottom: 28px; }
+.trouble-head {
+  font-size: 14px; font-weight: 700; color: var(--text);
+  background: var(--bg2); padding: 10px 16px;
+  border-radius: var(--radius) var(--radius) 0 0;
+  border: 1px solid var(--border);
+}
+.trouble-group .table-wrap { border-radius: 0 0 var(--radius) var(--radius); border-top: none; margin-top: 0; }
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--code-bg); color: rgba(255,255,255,.5);
+  margin-left: 0; padding: 40px 64px;
+  font-size: 13px;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+.footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.footer-brand { font-size: 16px; font-weight: 700; color: var(--accent); }
+.footer-links { display: flex; gap: 20px; }
+.footer-links a { color: rgba(255,255,255,.5); text-decoration: none; transition: color .15s; }
+.footer-links a:hover { color: white; }
+
+/* ── TOC PROGRESS ── */
+#toc-progress {
+  position: fixed; top: 56px; left: 0; height: 2px;
+  background: var(--accent); z-index: 300; transition: width .1s;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { margin-left: 0; }
+  .content { padding: 32px 24px; }
+  .hero { padding: 48px 24px; }
+  .hero-title { font-size: 28px; }
+  .wiring-grid { grid-template-columns: 1fr; }
+  .feature-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div id="toc-progress"></div>
+
+<!-- TOPBAR -->
+<nav class="topbar">
+  <div class="topbar-logo">🏫 TRaQ</div>
+  <span class="topbar-version">v1.0.0-beta</span>
+  <div class="topbar-right"></div>
+</nav>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="nav-group">
+    <div class="nav-group-label">Getting Started</div>
+    <a class="nav-link active" href="#overview">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Overview
+    </a>
+    <a class="nav-link" href="#features">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Features
+    </a>
+    <a class="nav-link" href="#architecture">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="6" height="6" rx="1"/><rect x="9" y="3" width="6" height="6" rx="1"/><rect x="16" y="3" width="6" height="6" rx="1"/><path d="M5 9v3M12 9v3M19 9v3M5 12h14M12 12v3M8 15h8"/></svg>Architecture
+    </a>
+  </div>
+  <hr class="nav-divider"/>
+  <div class="nav-group">
+    <div class="nav-group-label">Hardware</div>
+    <a class="nav-link" href="#hardware">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>Requirements
+    </a>
+    <a class="nav-link" href="#wiring">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>Wiring
+    </a>
+  </div>
+  <hr class="nav-divider"/>
+  <div class="nav-group">
+    <div class="nav-group-label">Setup</div>
+    <a class="nav-link" href="#firebase">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h7"/><path d="M15 17l3 3 5-5"/></svg>Firebase
+    </a>
+    <a class="nav-link" href="#telegram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>Telegram Bot
+    </a>
+    <a class="nav-link" href="#appscript">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Apps Script
+    </a>
+    <a class="nav-link" href="#esp32">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 2v5M8 2v5M9 12h6M9 16h4"/></svg>ESP32
+    </a>
+    <a class="nav-link" href="#dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard
+    </a>
+  </div>
+  <hr class="nav-divider"/>
+  <div class="nav-group">
+    <div class="nav-group-label">Reference</div>
+    <a class="nav-link" href="#qr-format">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M18 14h.01M14 18h.01M18 18h.01"/></svg>QR Format
+    </a>
+    <a class="nav-link" href="#schedule">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Schedule
+    </a>
+    <a class="nav-link" href="#scan-logic">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-6 4 2 7-6-4-6 4 2-7-6-4h7z"/></svg>Scan Logic
+    </a>
+    <a class="nav-link" href="#bot-commands">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Bot Commands
+    </a>
+    <a class="nav-link" href="#database">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0018 0V5"/><path d="M3 12a9 3 0 0018 0"/></svg>Database
+    </a>
+    <a class="nav-link" href="#offline">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0119 12.55M5 12.55a10.94 10.94 0 015.17-2.39M10.71 5.05A16 16 0 0122.56 9M1.42 9a15.91 15.91 0 014.7-2.88M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>Offline Mode
+    </a>
+    <a class="nav-link" href="#security">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Security
+    </a>
+  </div>
+  <hr class="nav-divider"/>
+  <div class="nav-group">
+    <div class="nav-group-label">Support</div>
+    <a class="nav-link" href="#troubleshooting">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>Troubleshooting
+    </a>
+    <a class="nav-link" href="#changelog">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Changelog
+    </a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">Documentation</div>
+    <h1 class="hero-title">TRaQ <span>Attendance</span> System</h1>
+    <p class="hero-sub">Technology-Driven Recording and Automated QR Code System for Attendance Monitoring and Logging — built on ESP32, Firebase, and Telegram.</p>
+    <div class="hero-meta">
+      <span class="hero-meta-item">Version 1.0.0-beta</span>
+      <span class="hero-meta-item">Author: Darren Bardelas</span>
+      <span class="hero-meta-item">Philippines 🇵🇭</span>
+      <span class="hero-meta-item">2026</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- OVERVIEW -->
+    <section class="section" id="overview">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        Overview
+      </h2>
+      <p>TRaQ is a fully automated, self-contained QR code attendance monitoring system designed for Philippine schools. Students scan their personal QR ID card at an ESP32-powered kiosk. The system logs attendance in real-time to Firebase Realtime Database and immediately notifies parents and teachers via Telegram bot — with no server or monthly fees.</p>
+      <p>The system is engineered to be resilient: it continues operating without internet by saving scans to onboard flash memory, then automatically syncing when connectivity is restored.</p>
+
+      <div class="arch">
+<span class="hl">Student</span> scans QR card
+   <span class="arrow">↓</span>
+<span class="hl2">GM65 scanner</span> reads JSON payload via UART
+   <span class="arrow">↓</span>
+<span class="hl2">ESP32</span> parses student data + determines phase
+   <span class="arrow">↓</span>
+WiFi available? <span class="arrow">──No──→</span> <span class="hl">SPIFFS queue</span> (offline storage)
+   <span class="arrow">↓ Yes</span>
+<span class="hl2">Firebase RTDB</span> attendance record written
+   <span class="arrow">↓</span>
+<span class="hl2">Telegram Bot</span> notifies parent instantly
+   <span class="arrow">↓</span>
+<span class="hl">LCD</span> shows name + status  |  <span class="hl">LED</span> flashes
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section" id="features">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Features
+      </h2>
+
+      <h3 class="sub-title">Core Attendance</h3>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon blue">📷</div>
+          <h4>4-Phase Scanning</h4>
+          <p>Morning In/Out and Afternoon In/Out per student per day, with duplicate scan protection.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon yellow">⚠️</div>
+          <h4>Late Detection</h4>
+          <p>Automatic late marking for students who scan after the configurable cutoff time.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon red">🔴</div>
+          <h4>Absent Marking</h4>
+          <p>Automatic absent marking at 8:30 AM (morning) and 2:00 PM (afternoon) via scheduled triggers.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon green">📊</div>
+          <h4>Daily Finalization</h4>
+          <p>7:30 PM summary sent to every parent and teachers receive a full section report.</p>
+        </div>
+      </div>
+
+      <h3 class="sub-title">Reliability</h3>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon blue">📶</div>
+          <h4>Offline Mode</h4>
+          <p>Scans saved to SPIFFS flash memory. Auto-syncs to Firebase when WiFi returns.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon blue">🔄</div>
+          <h4>Multi-WiFi Failover</h4>
+          <p>Up to 4 WiFi networks with best-signal selection. Non-blocking reconnect keeps scan loop running.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon green">🕐</div>
+          <h4>RTC + NTP</h4>
+          <p>DS3231 RTC for accurate offline time. NTP syncs on every boot. Battery health monitored every 5 minutes.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon yellow">⚡</div>
+          <h4>Catch-up Checks</h4>
+          <p>On boot, ESP32 checks systemFlags and triggers any missed absent checks via Apps Script.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE -->
+    <section class="section" id="architecture">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="6" height="6" rx="1"/><rect x="9" y="3" width="6" height="6" rx="1"/><rect x="16" y="3" width="6" height="6" rx="1"/><path d="M5 9v3M12 9v3M19 9v3M5 12h14M12 12v3M8 15h8"/></svg>
+        System Architecture
+      </h2>
+      <div class="arch">
+<span class="hl">┌──────────────────────────────────────────────────────────────┐</span>
+<span class="hl">│                       ESP32 Kiosk                             │</span>
+<span class="hl">│</span>                                                               <span class="hl">│</span>
+<span class="hl">│</span>  <span class="hl2">GM65 Scanner</span> → Parse JSON → Cooldown → Phase Detection       <span class="hl">│</span>
+<span class="hl">│</span>                                    <span class="arrow">↓</span>                          <span class="hl">│</span>
+<span class="hl">│</span>                     WiFi? <span class="arrow">──No──→</span> <span class="hl">SPIFFS Queue</span>               <span class="hl">│</span>
+<span class="hl">│</span>                       <span class="arrow">↓ Yes</span>                                   <span class="hl">│</span>
+<span class="hl">│</span>              <span class="hl2">Firebase RTDB</span> → getChatId → <span class="hl2">Telegram</span>             <span class="hl">│</span>
+<span class="hl">│</span>                                                               <span class="hl">│</span>
+<span class="hl">│</span>  <span class="hl2">DS3231 RTC</span> ← NTP sync   │   Catch-up checks on boot         <span class="hl">│</span>
+<span class="hl">└──────────────────────────────────────────────────────────────┘</span>
+              <span class="arrow">↕</span> Firebase Realtime Database
+<span class="hl">┌──────────────────────────────────────────────────────────────┐</span>
+<span class="hl">│                  Google Apps Script                           │</span>
+<span class="hl">│</span>                                                               <span class="hl">│</span>
+<span class="hl">│</span>  <span class="hl2">Telegram Webhook</span>  /register /unregister /rteacher /status   <span class="hl">│</span>
+<span class="hl">│</span>  <span class="hl2">8:30 AM Trigger</span>   checkMorningAbsences()                    <span class="hl">│</span>
+<span class="hl">│</span>  <span class="hl2">2:00 PM Trigger</span>   checkAfternoonAbsences()                  <span class="hl">│</span>
+<span class="hl">│</span>  <span class="hl2">7:30 PM Trigger</span>   finalizeAttendance()                      <span class="hl">│</span>
+<span class="hl">│</span>  <span class="hl2">Monthly Trigger</span>   monthlyCleanup()                          <span class="hl">│</span>
+<span class="hl">│</span>  <span class="hl2">doGet()</span>           ESP32 catch-up endpoint                   <span class="hl">│</span>
+<span class="hl">└──────────────────────────────────────────────────────────────┘</span>
+              <span class="arrow">↕</span> Firebase (direct read)
+<span class="hl">┌───────────────────┐</span>        <span class="hl">┌───────────────────┐</span>
+<span class="hl">│</span>  <span class="hl2">Parents</span>           <span class="hl">│</span>        <span class="hl">│</span>  <span class="hl2">Web Dashboard</span>     <span class="hl">│</span>
+<span class="hl">│</span>  per-child alerts  <span class="hl">│</span>        <span class="hl">│</span>  live overview    <span class="hl">│</span>
+<span class="hl">│</span>  daily summaries   <span class="hl">│</span>        <span class="hl">│</span>  student profiles <span class="hl">│</span>
+<span class="hl">└───────────────────┘</span>        <span class="hl">│</span>  Excel export     <span class="hl">│</span>
+<span class="hl">┌───────────────────┐</span>        <span class="hl">└───────────────────┘</span>
+<span class="hl">│</span>  <span class="hl2">Teachers</span>          <span class="hl">│</span>
+<span class="hl">│</span>  section alerts    <span class="hl">│</span>
+<span class="hl">│</span>  daily reports     <span class="hl">│</span>
+<span class="hl">└───────────────────┘</span>
+      </div>
+    </section>
+
+    <!-- HARDWARE -->
+    <section class="section" id="hardware">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+        Hardware Requirements
+      </h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Component</th><th>Description</th><th>Required</th></tr></thead>
+          <tbody>
+            <tr><td><strong>ESP32 Dev Board</strong></td><td>Main microcontroller — any common 30-pin dev board</td><td><span class="badge badge-green">Required</span></td></tr>
+            <tr><td><strong>GM65 QR Scanner</strong></td><td>UART QR/barcode reader module</td><td><span class="badge badge-green">Required</span></td></tr>
+            <tr><td><strong>16x2 LCD + I2C</strong></td><td>Display with I2C backpack module (address <code>0x27</code>)</td><td><span class="badge badge-green">Required</span></td></tr>
+            <tr><td><strong>DS3231 RTC</strong></td><td>Real-time clock with CR2032 battery backup</td><td><span class="badge badge-blue">Recommended</span></td></tr>
+            <tr><td><strong>Green LED + 220Ω</strong></td><td>Scan success indicator</td><td><span class="badge badge-green">Required</span></td></tr>
+            <tr><td><strong>Red LED + 220Ω</strong></td><td>Error / absent indicator</td><td><span class="badge badge-green">Required</span></td></tr>
+            <tr><td><strong>5V Power Supply</strong></td><td>1A minimum via MicroUSB</td><td><span class="badge badge-green">Required</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- WIRING -->
+    <section class="section" id="wiring">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>
+        Wiring
+      </h2>
+      <div class="wiring-grid">
+        <div class="wiring-card">
+          <div class="wiring-head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M18 14h.01M14 18h.01M18 18h.01"/></svg>GM65 QR Scanner</div>
+          <div class="table-wrap"><table><thead><tr><th>GM65 Pin</th><th>ESP32 Pin</th></tr></thead><tbody>
+            <tr><td>VCC</td><td>3.3V</td></tr>
+            <tr><td>GND</td><td>GND</td></tr>
+            <tr><td>TX</td><td>GPIO 16 (RX2)</td></tr>
+            <tr><td>RX</td><td>GPIO 17 (TX2)</td></tr>
+          </tbody></table></div>
+        </div>
+        <div class="wiring-card">
+          <div class="wiring-head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M8 7V5M16 7V5"/></svg>16x2 LCD (I2C)</div>
+          <div class="table-wrap"><table><thead><tr><th>LCD Pin</th><th>ESP32 Pin</th></tr></thead><tbody>
+            <tr><td>VCC</td><td><strong>5V (VIN)</strong> ⚠️</td></tr>
+            <tr><td>GND</td><td>GND</td></tr>
+            <tr><td>SDA</td><td>GPIO 21</td></tr>
+            <tr><td>SCL</td><td>GPIO 22</td></tr>
+          </tbody></table></div>
+        </div>
+        <div class="wiring-card">
+          <div class="wiring-head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>DS3231 RTC</div>
+          <div class="table-wrap"><table><thead><tr><th>DS3231 Pin</th><th>ESP32 Pin</th></tr></thead><tbody>
+            <tr><td>VCC</td><td>3.3V</td></tr>
+            <tr><td>GND</td><td>GND</td></tr>
+            <tr><td>SDA</td><td>GPIO 21 (shared)</td></tr>
+            <tr><td>SCL</td><td>GPIO 22 (shared)</td></tr>
+            <tr><td>SQW</td><td>Not connected</td></tr>
+            <tr><td>32K</td><td>Not connected</td></tr>
+          </tbody></table></div>
+        </div>
+        <div class="wiring-card">
+          <div class="wiring-head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2"/></svg>LEDs</div>
+          <div class="table-wrap"><table><thead><tr><th>Component</th><th>ESP32 Pin</th></tr></thead><tbody>
+            <tr><td>Green LED (+)</td><td>GPIO 25 → 220Ω → GND</td></tr>
+            <tr><td>Red LED (+)</td><td>GPIO 26 → 220Ω → GND</td></tr>
+          </tbody></table></div>
+        </div>
+      </div>
+      <div class="callout info">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        <div>LCD and DS3231 share the same I2C bus (GPIO 21/22) without conflict — they use different addresses: <code>0x27</code> for LCD and <code>0x68</code> for DS3231. The LCD requires <strong>5V (VIN)</strong>, not 3.3V.</div>
+      </div>
+    </section>
+
+    <!-- FIREBASE -->
+    <section class="section" id="firebase">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h7"/><path d="M15 17l3 3 5-5"/></svg>
+        Firebase Setup
+      </h2>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Create Project</div><div class="step-desc">Go to <code>console.firebase.google.com</code> → Add project → name it (e.g. <code>traq-attendance</code>) → disable Analytics → Create project.</div></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Realtime Database</div><div class="step-desc">Build → Realtime Database → Create Database → choose region <code>asia-southeast1</code> → start in Test mode → copy the Database URL.</div></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Get API Key</div><div class="step-desc">Project Settings ⚙️ → General → Your apps → click <code>&lt;/&gt;</code> → register web app → copy the <code>apiKey</code> value.</div></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Enable Anonymous Auth</div><div class="step-desc">Build → Authentication → Get started → Sign-in method tab → Anonymous → Enable → Save.</div></div></div>
+      </div>
+      <div class="callout warning">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div>Test Mode expires after 30 days. Lock your database rules with a Firebase Secret before going live in production. See the <a href="#security" style="color:inherit;font-weight:600">Security</a> section for the exact rules.</div>
+      </div>
+    </section>
+
+    <!-- TELEGRAM -->
+    <section class="section" id="telegram">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+        Telegram Bot Setup
+      </h2>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Create Bot via BotFather</div><div class="step-desc">Open Telegram → search <code>@BotFather</code> → send <code>/newbot</code> → follow prompts → copy the <strong>Bot Token</strong>.</div></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Get Your Chat ID</div><div class="step-desc">Send any message to your bot, then open: <code>https://api.telegram.org/bot&lt;TOKEN&gt;/getUpdates</code> — look for <code>"chat":{"id": XXXXXXXXX}</code>.</div></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Set Webhook (after Apps Script deploy)</div><div class="step-desc">Open in browser: <code>https://api.telegram.org/bot&lt;TOKEN&gt;/setWebhook?url=&lt;WEBAPP_URL&gt;</code> — expected: <code>{"ok":true,"description":"Webhook was set"}</code>.</div></div></div>
+      </div>
+    </section>
+
+    <!-- APPS SCRIPT -->
+    <section class="section" id="appscript">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Google Apps Script Setup
+      </h2>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Create Project</div><div class="step-desc">Go to <code>script.google.com</code> → New Project → paste the full <code>TRaQ_AppScript.js</code> content.</div></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Set Script Properties</div><div class="step-desc">Project Settings → Script Properties → Add: <code>TEACHER_PASSWORD</code> and <code>CATCHUP_SECRET</code>. These are never hardcoded.</div></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Deploy as Web App</div><div class="step-desc">Deploy → New deployment → Web app → Execute as: Me → Who has access: Anyone → Deploy → Copy Web App URL.</div></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Set Triggers</div><div class="step-desc">Triggers ⏰ → Add Trigger for each function below. Delete old triggers first to avoid duplicates.</div></div></div>
+      </div>
+
+      <h3 class="sub-title">Scheduled Triggers</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Function</th><th>Time Window</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code>checkMorningAbsences</code></td><td>8:00 AM – 9:00 AM</td><td>Mark students without morning scan as Absent AM</td></tr>
+            <tr><td><code>checkAfternoonAbsences</code></td><td>2:00 PM – 3:00 PM</td><td>Mark students without afternoon scan as Absent PM</td></tr>
+            <tr><td><code>finalizeAttendance</code></td><td>7:00 PM – 8:00 PM</td><td>Send daily summaries to parents + teacher section report</td></tr>
+            <tr><td><code>monthlyCleanup</code></td><td>1st of month</td><td>Delete attendance records older than current school year</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout danger">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div>Every time you edit the Apps Script code, you must create a <strong>New Deployment</strong> — not "Manage Deployments." After deploying, update the Telegram webhook with the new URL.</div>
+      </div>
+
+      <h3 class="sub-title">Test Functions</h3>
+      <p>Run these manually from the Apps Script editor to verify everything works without waiting for triggers:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Function</th><th>What it tests</th></tr></thead>
+          <tbody>
+            <tr><td><code>TEST_morningCheck()</code></td><td>Marks absent AM students immediately</td></tr>
+            <tr><td><code>TEST_afternoonCheck()</code></td><td>Marks absent PM students immediately</td></tr>
+            <tr><td><code>TEST_finalize()</code></td><td>Sends daily summaries to all parents and teachers</td></tr>
+            <tr><td><code>TEST_sendMe()</code></td><td>Sends a test Telegram message to your chat ID</td></tr>
+            <tr><td><code>TEST_cleanup()</code></td><td>Runs the monthly data cleanup</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ESP32 -->
+    <section class="section" id="esp32">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 2v5M8 2v5M9 12h6M9 16h4"/></svg>
+        ESP32 Setup
+      </h2>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Install Arduino IDE and ESP32 Board</div><div class="step-desc">Download from <code>arduino.cc</code>. Add board URL in Preferences: <code>https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json</code> → Tools → Board → Boards Manager → install esp32.</div></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Install Libraries</div><div class="step-desc">Sketch → Include Library → Manage Libraries → install: <code>Firebase ESP Client</code> (Mobizt), <code>LiquidCrystal_I2C</code> (Frank de Brabander), <code>ArduinoJson</code> (Benoit Blanchon), <code>RTClib</code> (Adafruit).</div></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Configure Credentials</div><div class="step-desc">Open <code>TRaQ_ESP32.ino</code> and fill in WiFi networks, Firebase API key, Database URL, Bot Token, and Apps Script URL.</div></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Upload</div><div class="step-desc">Tools → Board → ESP32 Dev Module → select Port → Upload. Open Serial Monitor at 115200 baud to see live logs.</div></div></div>
+      </div>
+
+      <h3 class="sub-title">Configurable Constants</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Constant</th><th>Default</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>MORNING_CUTOFF</code></td><td><code>510</code></td><td>8:30 AM in minutes. Scans after this = LATE</td></tr>
+            <tr><td><code>AFTERNOON_START</code></td><td><code>750</code></td><td>12:30 PM — earliest allowed afternoon scan</td></tr>
+            <tr><td><code>AFTERNOON_CUTOFF</code></td><td><code>840</code></td><td>2:00 PM — afternoon absent trigger time</td></tr>
+            <tr><td><code>FINALIZE_CUTOFF</code></td><td><code>1170</code></td><td>7:30 PM — finalization trigger time</td></tr>
+            <tr><td><code>SCAN_COOLDOWN_MS</code></td><td><code>3000</code></td><td>3 seconds — prevents GM65 double-reads</td></tr>
+            <tr><td><code>WIFI_RETRY_INTERVAL</code></td><td><code>15000</code></td><td>15 seconds between non-blocking WiFi attempts</td></tr>
+            <tr><td><code>RTC_CHECK_INTERVAL</code></td><td><code>300000</code></td><td>5 minutes between DS3231 battery health checks</td></tr>
+            <tr><td><code>SCROLL_SPEED</code></td><td><code>300</code></td><td>LCD scroll delay in milliseconds</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section class="section" id="dashboard">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard Setup
+      </h2>
+      <p>The dashboard is a single HTML file that reads directly from Firebase — no server needed.</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Host on GitHub Pages (free)</div><div class="step-desc">Create repo named <code>traq</code> → upload <code>traq-dashboard.html</code> as <code>index.html</code> → Settings → Pages → Deploy from main branch. Live at <code>https://yourusername.github.io/traq/</code>.</div></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Configure Accounts</div><div class="step-desc">Edit the <code>DEV_ACCOUNTS</code> array in the dashboard HTML. Set usernames, passwords, roles, and sections. For production, generate SHA-256 hashes and use the <code>ACCOUNTS</code> array.</div></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Verify Firebase URL</div><div class="step-desc">Confirm <code>const FIREBASE_URL</code> matches your database URL exactly.</div></div></div>
+      </div>
+
+      <h3 class="sub-title">Dashboard Pages</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Page</th><th>Contents</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Overview</strong></td><td>Stats cards, AM/PM rate bars, session comparison chart, status donut chart, today's full attendance table</td></tr>
+            <tr><td><strong>Attendance</strong></td><td>Full table with search, filter by status (All / Present / Absent / Late), clickable student profiles</td></tr>
+            <tr><td><strong>Students</strong></td><td>All registered students with grade, section, phone numbers, Telegram registration status</td></tr>
+            <tr><td><strong>History</strong></td><td>Card view per student for any selected date with AM/PM status and full profile button</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="sub-title">Excel Export Types</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Type</th><th>Content</th><th>Filename</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Today Only</strong></td><td>Current date, all students, 4 time columns + AM/PM status</td><td><code>TRaQ_2026-05-23.xlsx</code></td></tr>
+            <tr><td><strong>Daily Records</strong></td><td>One row per student per day across date range</td><td><code>TRaQ_Daily_from_to.xlsx</code></td></tr>
+            <tr><td><strong>Student Summary</strong></td><td>Totals per student — present/absent/late counts + attendance rate %</td><td><code>TRaQ_Summary_from_to.xlsx</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- QR FORMAT -->
+    <section class="section" id="qr-format">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M18 14h.01M14 18h.01M18 18h.01"/></svg>
+        QR Code Format
+      </h2>
+      <p>Each student QR code must encode a JSON string with these exact fields. The LRN (<code>L</code>) is used as the unique Firebase key and must be exactly 12 digits.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">json</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>{
+  <span class="hl-st">"N"</span>:  <span class="hl-st">"Juan Dela Cruz"</span>,        <span class="hl-cm">// Full student name</span>
+  <span class="hl-st">"L"</span>:  <span class="hl-st">"123456789012"</span>,          <span class="hl-cm">// LRN — exactly 12 digits</span>
+  <span class="hl-st">"G"</span>:  <span class="hl-st">"Grade 12"</span>,              <span class="hl-cm">// Grade level</span>
+  <span class="hl-st">"S"</span>:  <span class="hl-st">"STEM"</span>,                  <span class="hl-cm">// Section name</span>
+  <span class="hl-st">"PP"</span>: <span class="hl-st">"+63 912 345 6789"</span>,      <span class="hl-cm">// Parent phone</span>
+  <span class="hl-st">"P"</span>:  <span class="hl-st">"+63 912 345 6789"</span>       <span class="hl-cm">// Student phone</span>
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- SCHEDULE -->
+    <section class="section" id="schedule">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Attendance Schedule
+      </h2>
+      <div class="schedule">
+        <div class="sched-item">
+          <span class="sched-time">Before 8:30 AM</span>
+          <span class="sched-auto sched-scan">Scan</span>
+          <span class="sched-desc">1st scan → <strong>Morning In (On Time)</strong></span>
+        </div>
+        <div class="sched-item">
+          <span class="sched-time">After 8:30 AM</span>
+          <span class="sched-auto sched-scan">Scan</span>
+          <span class="sched-desc">1st scan → <strong>Morning In (Late)</strong></span>
+        </div>
+        <div class="sched-item">
+          <span class="sched-time">8:30 AM</span>
+          <span class="sched-auto sched-trigger">Auto</span>
+          <span class="sched-desc">Students without morning scan → <strong>Absent AM</strong> — parent and teacher notified</span>
+        </div>
+        <div class="sched-item">
+          <span class="sched-time">~11:00 AM</span>
+          <span class="sched-auto sched-scan">Scan</span>
+          <span class="sched-desc">2nd scan → <strong>Morning Out</strong></span>
+        </div>
+        <div class="sched-item">
+          <span class="sched-time">After 12:30 PM</span>
+          <span class="sched-auto sched-scan">Scan</span>
+          <span class="sched-desc">3rd scan → <strong>Afternoon In</strong> (too early before 12:30 PM)</span>
+        </div>
+        <div class="sched-item">
+          <span class="sched-time">2:00 PM</span>
+          <span class="sched-auto sched-trigger">Auto</span>
+          <span class="sched-desc">Students without afternoon scan → <strong>Absent PM</strong> — parent and teacher notified</span>
+        </div>
+        <div class="sched-item">
+          <span class="sched-time">Anytime PM</span>
+          <span class="sched-auto sched-scan">Scan</span>
+          <span class="sched-desc">4th scan → <strong>Afternoon Out</strong></span>
+        </div>
+        <div class="sched-item">
+          <span class="sched-time">7:30 PM</span>
+          <span class="sched-auto sched-trigger">Auto</span>
+          <span class="sched-desc"><strong>Daily finalization</strong> — parent summary + full teacher section report with present/absent/late counts</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCAN LOGIC -->
+    <section class="section" id="scan-logic">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-6 4 2 7-6-4-6 4 2-7-6-4h7z"/></svg>
+        Scan Phase Logic
+      </h2>
+      <p>The system checks Firebase state to determine which of 4 phases applies to each scan:</p>
+      <div class="db-tree">
+<span class="db-key">Student scans QR</span>
+  <span class="db-type">│</span>
+  <span class="db-type">├──</span> No morningIn AND not absentAM?
+  <span class="db-type">│       └──</span> <span class="db-val">SCAN 1: MORNING IN</span> (ON TIME or LATE based on time)
+  <span class="db-type">│</span>
+  <span class="db-type">├──</span> Has morningIn AND no morningOut?
+  <span class="db-type">│       └──</span> <span class="db-val">SCAN 2: MORNING OUT</span>
+  <span class="db-type">│</span>
+  <span class="db-type">├──</span> (Has morningOut OR absentAM) AND no afternoonIn AND not absentPM?
+  <span class="db-type">│       ├──</span> Before 12:30 PM → <span class="db-key">"Too early!"</span>
+  <span class="db-type">│       └──</span> After 12:30 PM → <span class="db-val">SCAN 3: AFTERNOON IN</span>
+  <span class="db-type">│</span>
+  <span class="db-type">├──</span> Has afternoonIn AND no afternoonOut?
+  <span class="db-type">│       └──</span> <span class="db-val">SCAN 4: AFTERNOON OUT</span>
+  <span class="db-type">│</span>
+  <span class="db-type">├──</span> absentAM AND absentPM?
+  <span class="db-type">│       └──</span> <span class="db-key">"Absent Today"</span>
+  <span class="db-type">│</span>
+  <span class="db-type">└──</span> All complete?
+          <span class="db-type">└──</span> <span class="db-key">"All Done!"</span>
+      </div>
+      <div class="callout success">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+        <div><strong>Special case:</strong> If a student was marked <strong>Absent AM</strong> but arrives in the afternoon, the system detects <code>absentAM=true</code>, skips morning phases, and goes directly to Afternoon In. The <code>absentPM</code> flag is also cleared.</div>
+      </div>
+    </section>
+
+    <!-- BOT COMMANDS -->
+    <section class="section" id="bot-commands">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        Bot Commands
+      </h2>
+      <h3 class="sub-title">Parent Commands (Public)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Command</th><th>Description</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td><code>/start</code></td><td>Welcome message and instructions</td><td></td></tr>
+            <tr><td><code>/register 123456789012</code></td><td>Register to receive child's attendance alerts</td><td>Student must have scanned at least once first</td></tr>
+            <tr><td><code>/unregister 123456789012</code></td><td>Remove registration and stop alerts</td><td>Only the registered parent can unregister</td></tr>
+            <tr><td><code>/status 123456789012</code></td><td>View student name, grade, section</td><td></td></tr>
+            <tr><td><code>/help</code></td><td>List available commands</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 class="sub-title">Teacher Command (Hidden)</h3>
+      <div class="callout info">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        <div>The teacher command is intentionally hidden from <code>/help</code>. Share it only with authorized teachers. The password is stored securely in Apps Script Properties.</div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Command</th><th>Format</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><code>/rteacher</code></td><td><code>/rteacher &lt;password&gt; Grade &lt;level&gt; &lt;section&gt;</code></td><td><code>/rteacher traq2025admin Grade 12 STEM</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- DATABASE -->
+    <section class="section" id="database">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0018 0V5"/><path d="M3 12a9 3 0 0018 0"/></svg>
+        Firebase Database Structure
+      </h2>
+      <div class="db-tree">
+<span class="db-key">/</span>
+<span class="db-type">├──</span> <span class="db-key">attendance/</span>
+<span class="db-type">│   └──</span> <span class="db-key">2026-05-23/</span>
+<span class="db-type">│       └──</span> <span class="db-key">123456789012/</span>     <span class="db-comment">← LRN as key</span>
+<span class="db-type">│           ├──</span> <span class="db-nm">name:</span>         <span class="db-val">"Juan Dela Cruz"</span>
+<span class="db-type">│           ├──</span> <span class="db-nm">grade:</span>        <span class="db-val">"Grade 12"</span>
+<span class="db-type">│           ├──</span> <span class="db-nm">section:</span>      <span class="db-val">"STEM"</span>
+<span class="db-type">│           ├──</span> <span class="db-nm">status:</span>       <span class="db-val">"ON TIME"</span> <span class="db-type">|</span> <span class="db-val">"LATE"</span>
+<span class="db-type">│           ├──</span> <span class="db-nm">morningIn:</span>    <span class="db-val">"07:45:22 AM"</span>
+<span class="db-type">│           ├──</span> <span class="db-nm">morningOut:</span>   <span class="db-val">"11:02:10 AM"</span>
+<span class="db-type">│           ├──</span> <span class="db-nm">afternoonIn:</span>  <span class="db-val">"12:35:44 PM"</span>
+<span class="db-type">│           ├──</span> <span class="db-nm">afternoonOut:</span> <span class="db-val">"04:30:05 PM"</span>
+<span class="db-type">│           ├──</span> <span class="db-nm">absentAM:</span>     <span class="db-type">false</span>
+<span class="db-type">│           ├──</span> <span class="db-nm">absentPM:</span>     <span class="db-type">false</span>
+<span class="db-type">│           └──</span> <span class="db-nm">finalized:</span>    <span class="db-type">true</span>
+<span class="db-type">│</span>
+<span class="db-type">├──</span> <span class="db-key">students/</span>
+<span class="db-type">│   └──</span> <span class="db-key">123456789012/</span>
+<span class="db-type">│       ├──</span> <span class="db-nm">studentName:</span>  <span class="db-val">"Juan Dela Cruz"</span>
+<span class="db-type">│       ├──</span> <span class="db-nm">grade:</span>        <span class="db-val">"Grade 12"</span>
+<span class="db-type">│       ├──</span> <span class="db-nm">section:</span>      <span class="db-val">"STEM"</span>
+<span class="db-type">│       ├──</span> <span class="db-nm">chatId:</span>       <span class="db-val">"987654321"</span>  <span class="db-comment">← parent Telegram ID</span>
+<span class="db-type">│       ├──</span> <span class="db-nm">parentName:</span>   <span class="db-val">"Maria Dela Cruz"</span>
+<span class="db-type">│       └──</span> <span class="db-nm">registeredAt:</span> <span class="db-val">"2026-05-11T05:28:08Z"</span>
+<span class="db-type">│</span>
+<span class="db-type">├──</span> <span class="db-key">teachers/</span>
+<span class="db-type">│   └──</span> <span class="db-key">987654321/</span>          <span class="db-comment">← Telegram chatId as key</span>
+<span class="db-type">│       ├──</span> <span class="db-nm">name:</span>         <span class="db-val">"Sir Juan"</span>
+<span class="db-type">│       ├──</span> <span class="db-nm">grade:</span>        <span class="db-val">"Grade 12"</span>
+<span class="db-type">│       └──</span> <span class="db-nm">section:</span>      <span class="db-val">"STEM"</span>
+<span class="db-type">│</span>
+<span class="db-type">├──</span> <span class="db-key">pending/</span>            <span class="db-comment">← notifications queued before parent registered</span>
+<span class="db-type">│   └──</span> <span class="db-key">123456789012/</span>
+<span class="db-type">│       └──</span> <span class="db-key">1715123456_78432/</span>  <span class="db-comment">← unique key</span>
+<span class="db-type">│           ├──</span> <span class="db-nm">type:</span> <span class="db-val">"MORNING IN"</span>
+<span class="db-type">│           ├──</span> <span class="db-nm">time:</span> <span class="db-val">"07:45:22 AM"</span>
+<span class="db-type">│           └──</span> <span class="db-nm">sent:</span> <span class="db-type">false</span>
+<span class="db-type">│</span>
+<span class="db-type">└──</span> <span class="db-key">systemFlags/</span>        <span class="db-comment">← catch-up trigger tracking</span>
+    <span class="db-type">└──</span> <span class="db-key">2026-05-23/</span>
+        <span class="db-type">├──</span> <span class="db-nm">morningCheckDone:</span>    <span class="db-type">true</span>
+        <span class="db-type">├──</span> <span class="db-nm">afternoonCheckDone:</span>  <span class="db-type">true</span>
+        <span class="db-type">└──</span> <span class="db-nm">finalizeDone:</span>        <span class="db-type">true</span>
+      </div>
+    </section>
+
+    <!-- OFFLINE -->
+    <section class="section" id="offline">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0119 12.55M5 12.55a10.94 10.94 0 015.17-2.39M10.71 5.05A16 16 0 0122.56 9M1.42 9a15.91 15.91 0 014.7-2.88"/></svg>
+        Offline Mode
+      </h2>
+      <p>When WiFi is unavailable, TRaQ continues accepting scans. Entries are saved to <code>/traq_queue.json</code> on ESP32 internal flash and automatically uploaded when connectivity returns.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Feature</th><th>Detail</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Storage location</strong></td><td>ESP32 SPIFFS flash (<code>/traq_queue.json</code>)</td></tr>
+            <tr><td><strong>Survives reboots</strong></td><td>Yes — data persists through power cuts</td></tr>
+            <tr><td><strong>Capacity</strong></td><td>~50–100 scans (16KB buffer)</td></tr>
+            <tr><td><strong>Phase detection</strong></td><td>Saved at scan time using current clock — no wrong-phase on flush</td></tr>
+            <tr><td><strong>Duplicate protection</strong></td><td>Same LRN + same date is rejected with red LED flash</td></tr>
+            <tr><td><strong>Key collision</strong></td><td>Keys use <code>millis() + random(100000)</code> — essentially impossible to collide</td></tr>
+            <tr><td><strong>Auto-sync trigger</strong></td><td>Detected on next loop iteration when WiFi reconnects</td></tr>
+            <tr><td><strong>LCD during offline</strong></td><td>Shows <code>[OFFLINE]</code> instead of scrolling text</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECURITY -->
+    <section class="section" id="security">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Security
+      </h2>
+      <div class="table-wrap">
+        <table class="security-row">
+          <thead><tr><th>Layer</th><th>Item</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Firebase</td><td>Database rules</td><td><span class="badge badge-yellow">⚠ Test Mode — lock before production</span></td></tr>
+            <tr><td>Dashboard</td><td>Account passwords</td><td><span class="badge badge-green">✓ SHA-256 hashed</span></td></tr>
+            <tr><td>Dashboard</td><td>Session timeout</td><td><span class="badge badge-green">✓ 30 minutes with warning banner</span></td></tr>
+            <tr><td>Dashboard</td><td>Teacher section lock</td><td><span class="badge badge-green">✓ Teacher accounts see only their section</span></td></tr>
+            <tr><td>Apps Script</td><td>Teacher password</td><td><span class="badge badge-green">✓ Stored in Script Properties, not hardcoded</span></td></tr>
+            <tr><td>Apps Script</td><td>Double-trigger guard</td><td><span class="badge badge-green">✓ systemFlags checked inside each function</span></td></tr>
+            <tr><td>Bot</td><td>LRN validation on register</td><td><span class="badge badge-green">✓ Must scan first before parent can register</span></td></tr>
+            <tr><td>ESP32</td><td>WiFi credentials</td><td><span class="badge badge-yellow">⚠ In source code — do not share publicly</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="sub-title">Firebase Rules (Production)</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">json</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>{
+  <span class="hl-st">"rules"</span>: {
+    <span class="hl-st">"attendance"</span>:   { <span class="hl-st">".read"</span>: <span class="hl-kw">false</span>, <span class="hl-st">".write"</span>: <span class="hl-kw">false</span> },
+    <span class="hl-st">"students"</span>:     { <span class="hl-st">".read"</span>: <span class="hl-kw">false</span>, <span class="hl-st">".write"</span>: <span class="hl-kw">false</span> },
+    <span class="hl-st">"teachers"</span>:     { <span class="hl-st">".read"</span>: <span class="hl-kw">false</span>, <span class="hl-st">".write"</span>: <span class="hl-kw">false</span> },
+    <span class="hl-st">"pending"</span>:      { <span class="hl-st">".read"</span>: <span class="hl-kw">false</span>, <span class="hl-st">".write"</span>: <span class="hl-kw">false</span> },
+    <span class="hl-st">"systemFlags"</span>:  { <span class="hl-st">".read"</span>: <span class="hl-kw">false</span>, <span class="hl-st">".write"</span>: <span class="hl-kw">false</span> }
+  }
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- TROUBLESHOOTING -->
+    <section class="section" id="troubleshooting">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+        Troubleshooting
+      </h2>
+
+      <div class="trouble-group">
+        <div class="trouble-head">ESP32 / Hardware</div>
+        <div class="table-wrap"><table><thead><tr><th>Problem</th><th>Likely Cause</th><th>Fix</th></tr></thead><tbody>
+          <tr><td>LCD blank</td><td>Wrong I2C address</td><td>Change <code>0x27</code> to <code>0x3F</code> in code</td></tr>
+          <tr><td>LCD garbled</td><td>Contrast too low</td><td>Adjust blue potentiometer on I2C backpack</td></tr>
+          <tr><td>GM65 not scanning</td><td>Wrong wiring or baud rate</td><td>Verify TX→GPIO16, RX→GPIO17, power 3.3V</td></tr>
+          <tr><td>Firebase token error 400</td><td>Anonymous auth not enabled</td><td>Enable in Firebase Auth console</td></tr>
+          <tr><td><code>!RTC BATT LOW</code> on LCD</td><td>DS3231 CR2032 battery dead</td><td>Replace the CR2032 battery</td></tr>
+          <tr><td>Offline queue not flushing</td><td>SPIFFS corrupt</td><td>Call <code>SPIFFS.format()</code> — clears all stored data</td></tr>
+          <tr><td>Double scans logged</td><td>GM65 double-read</td><td>Already fixed — 3-second cooldown per LRN</td></tr>
+        </tbody></table></div>
+      </div>
+
+      <div class="trouble-group">
+        <div class="trouble-head">Google Apps Script</div>
+        <div class="table-wrap"><table><thead><tr><th>Problem</th><th>Likely Cause</th><th>Fix</th></tr></thead><tbody>
+          <tr><td>Bot not responding</td><td>Webhook not set or stale URL</td><td>Redeploy → New Deployment → update webhook</td></tr>
+          <tr><td>Triggers not firing</td><td>Triggers deleted or broken</td><td>Delete all triggers, recreate from scratch</td></tr>
+          <tr><td>Afternoon check marks nobody</td><td>Logic error in old version</td><td>Use current version — <code>no afternoonIn = absent PM</code></td></tr>
+          <tr><td>Duplicate Telegram messages</td><td>Trigger fired twice</td><td>Already fixed — <code>getSystemFlag()</code> guard at top of each function</td></tr>
+          <tr><td>Execution timeout</td><td>Too many students + slow Firebase</td><td>Already optimized to 50ms sleep per message</td></tr>
+        </tbody></table></div>
+      </div>
+
+      <div class="trouble-group">
+        <div class="trouble-head">Telegram Bot</div>
+        <div class="table-wrap"><table><thead><tr><th>Problem</th><th>Likely Cause</th><th>Fix</th></tr></thead><tbody>
+          <tr><td><code>/register</code> fails — LRN not found</td><td>Student hasn't scanned yet</td><td>Have student scan at the kiosk first</td></tr>
+          <tr><td>Teacher not getting alerts</td><td>Grade/section mismatch</td><td>Delete teacher record in Firebase, re-register with exact format</td></tr>
+          <tr><td>Parent gets duplicate absent messages</td><td>Old trigger + catch-up both fired</td><td>Already fixed — double-trigger guard in current version</td></tr>
+        </tbody></table></div>
+      </div>
+
+      <div class="trouble-group">
+        <div class="trouble-head">Dashboard</div>
+        <div class="table-wrap"><table><thead><tr><th>Problem</th><th>Likely Cause</th><th>Fix</th></tr></thead><tbody>
+          <tr><td>Login fails</td><td>Wrong username/password</td><td>Check <code>DEV_ACCOUNTS</code> array in dashboard HTML</td></tr>
+          <tr><td>Data not loading</td><td>Wrong Firebase URL</td><td>Verify <code>const FIREBASE_URL</code> in the script</td></tr>
+          <tr><td>Section filter empty</td><td>No students in Firebase yet</td><td>Have at least one student scan to populate the database</td></tr>
+          <tr><td>Excel export fails</td><td>SheetJS CDN blocked</td><td>Check browser console for network errors</td></tr>
+          <tr><td>Teacher sees all sections</td><td>Role not set to <code>teacher</code></td><td>Check <code>role</code> field in account configuration</td></tr>
+        </tbody></table></div>
+      </div>
+    </section>
+
+    <!-- CHANGELOG -->
+    <section class="section" id="changelog">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Changelog
+      </h2>
+      <h3 class="sub-title">v1.0.0-beta — 2026</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Category</th><th>Change</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge badge-green">Added</span></td><td>4-phase attendance tracking (Morning In/Out, Afternoon In/Out)</td></tr>
+            <tr><td><span class="badge badge-green">Added</span></td><td>Automatic absent marking at 8:30 AM and 2:00 PM via Apps Script triggers</td></tr>
+            <tr><td><span class="badge badge-green">Added</span></td><td>Daily finalization at 7:30 PM with parent summary and teacher section report</td></tr>
+            <tr><td><span class="badge badge-green">Added</span></td><td>Telegram bot with /register, /unregister, /status, /rteacher commands</td></tr>
+            <tr><td><span class="badge badge-green">Added</span></td><td>Pending notification queue for parents who register after first scan</td></tr>
+            <tr><td><span class="badge badge-green">Added</span></td><td>SPIFFS offline queue with phase-aware flush on sync</td></tr>
+            <tr><td><span class="badge badge-green">Added</span></td><td>Multi-WiFi with best-signal selection and non-blocking reconnect</td></tr>
+            <tr><td><span class="badge badge-green">Added</span></td><td>DS3231 RTC with NTP sync and battery health monitoring every 5 minutes</td></tr>
+            <tr><td><span class="badge badge-green">Added</span></td><td>Catch-up checks on device boot for missed scheduled triggers</td></tr>
+            <tr><td><span class="badge badge-green">Added</span></td><td>3-second scan cooldown to prevent GM65 double-reads</td></tr>
+            <tr><td><span class="badge badge-green">Added</span></td><td>Web dashboard with 4 pages, student profile modal, and heatmap calendar</td></tr>
+            <tr><td><span class="badge badge-green">Added</span></td><td>Excel export — 3 types: Today, Daily Range, Student Summary</td></tr>
+            <tr><td><span class="badge badge-green">Added</span></td><td>SHA-256 hashed passwords and 30-minute session timeout in dashboard</td></tr>
+            <tr><td><span class="badge badge-green">Added</span></td><td>Role-based access (Admin vs Teacher) with section lock for teachers</td></tr>
+            <tr><td><span class="badge badge-green">Added</span></td><td>Monthly Firebase data cleanup function</td></tr>
+            <tr><td><span class="badge badge-blue">Fixed</span></td><td>Afternoon absent count now uses <code>no afternoonIn = absent</code> logic — not just <code>absentPM</code> flag</td></tr>
+            <tr><td><span class="badge badge-blue">Fixed</span></td><td>Students absent all day now correctly show PM absent in teacher report</td></tr>
+            <tr><td><span class="badge badge-blue">Fixed</span></td><td>WiFi reconnect no longer blocks scan loop (was freezing for up to 30s)</td></tr>
+            <tr><td><span class="badge badge-blue">Fixed</span></td><td>Offline scans flush to correct phase (saved at scan time)</td></tr>
+            <tr><td><span class="badge badge-blue">Fixed</span></td><td>Queue key collisions resolved with millis() + random()</td></tr>
+            <tr><td><span class="badge badge-blue">Fixed</span></td><td>Duplicate trigger sends prevented with double-trigger guard</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div><!-- /content -->
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">TRaQ</div>
+        <div style="margin-top:6px">Technology-Driven Recording and Automated QR Code System</div>
+        <div style="margin-top:4px">© 2026 Darren Bardelas. All rights reserved.</div>
+      </div>
+      <div class="footer-links">
+        <a href="#overview">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+// Progress bar
+const prog = document.getElementById('toc-progress');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  prog.style.width = pct + '%';
+});
+
+// Active nav link
+const sections = document.querySelectorAll('.section');
+const navLinks  = document.querySelectorAll('.nav-link');
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => obs.observe(s));
+
+// Copy code
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  const text = pre.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+}
+</script>
+</body>
+</html>
